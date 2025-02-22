@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Register User
     const registerForm = document.getElementById("registerForm");
     if (registerForm) {
         registerForm.addEventListener("submit", async (e) => {
@@ -7,56 +6,43 @@ document.addEventListener("DOMContentLoaded", function () {
             const name = document.getElementById("username").value;
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
-
             const res = await fetch("/api/users/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username:name, email, password }),
+                body: JSON.stringify({ name, email, password }),
             });
-
             const data = await res.json();
             alert(data.message);
-        });
+        });  // Make sure this closing bracket exists
+    }  // Make sure this closing bracket exists
+});  // Make sure this closing bracket exists
+
+
+// Login User
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+    if (!email || !password) {
+        alert("All fields are required");
+        return;
     }
 
-    // Login User
-    document.addEventListener("DOMContentLoaded", function () {
-        const loginForm = document.getElementById("loginForm");
-
-        if (loginForm) {
-            loginForm.addEventListener("submit", async (e) => {
-                e.preventDefault();
-
-                const email = document.getElementById("email").value;
-                const password = document.getElementById("password").value;
-
-                try {
-                    const res = await fetch("/api/users/login", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ email, password }),
-                    });
-
-                    // Debugging response
-                    console.log("Response Status:", res.status);
-
-                    const data = await res.json();
-                    console.log("Response Data:", data);
-
-                    alert(data.message);
-
-                    if (res.ok && data.token) {
-                        localStorage.setItem("token", data.token);
-                        alert("Login successful!");
-                        window.location.href = "dashboard.html"; // Redirect if needed
-                    }
-                } catch (error) {
-                    console.error("Error during login:", error);
-                    alert("Something went wrong. Please try again.");
-                }
-            });
-        }
+    const res = await fetch("/api/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
     });
+
+    const data = await res.json();
+    alert(data.message);
+    if (data.token) {
+        localStorage.setItem("token", data.token);
+    }
+});
+
 
     document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
@@ -131,5 +117,14 @@ if (placeOrderButton) {
 
         const data = await res.json();
         alert(data.message);
-        location.reload();
-    });}
+        location.reload();})}
+fetch("/api/users/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+})
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch(error => console.error("Error:", error)); // Ensure a .catch() block is present

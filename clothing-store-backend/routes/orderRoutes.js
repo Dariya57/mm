@@ -25,5 +25,6 @@ router.post("/", protect, async (req, res) => {
         res.status(500).json({ message: "Error placing order" });
     }
 });
+module.exports = { protect };
 
 module.exports = router;

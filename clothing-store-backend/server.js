@@ -3,9 +3,10 @@ const express = require("express");
 const connectDB = require("./config/db");
 const path = require("path");
 
-const userRoutes = require("../clothing-store-backend/routes/userRoutes");
-const productRoutes = require("../clothing-store-backend/routes/productRoutes");
-const orderRoutes = require("../clothing-store-backend/routes/orderRoutes");
+const userRoutes = require("./routes/userRoutes");
+const productRoutes = require("./routes/productRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+
 
 const app = express();
 
